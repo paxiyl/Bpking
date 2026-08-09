@@ -12,9 +12,9 @@ jobs:
 
     - name: Unzip Project Files
       run: |
-        unzip bp
-        # If your zip created an extra subfolder, move everything to the root
-        if [ -d "Forge-1.8.9-Src" ]; then mv Forge-1.8.9-Src/* .; fi 
+        unzip bp.zip
+        # Moves files to root if your zip created an inner folder
+        if [ -d "bp" ]; then mv bp/* .; fi 
 
     - name: Set up Java 8
       uses: actions/setup-java@v4
@@ -33,4 +33,5 @@ jobs:
       with:
         name: compiled-mod
         path: build/libs/*.jar
+        
         
