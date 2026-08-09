@@ -1,0 +1,36 @@
+name: Unzip and Build Mod
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Unzip Project Files
+      run: |
+        unzip project.zip
+        # If your zip created an extra subfolder, move everything to the root
+        if [ -d "Forge-1.8.9-Src" ]; then mv Forge-1.8.9-Src/* .; fi 
+
+    - name: Set up Java 8
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'zulu'
+        java-version: '8'
+
+    - name: Grant Execute Permission for Gradlew
+      run: chmod +x gradlew
+
+    - name: Build with Gradle
+      run: ./gradlew build
+
+    - name: Upload Compiled Jar
+      uses: actions/upload-artifact@v4
+      with:
+        name: compiled-mod
+        path: build/libs/*.jar
+        
