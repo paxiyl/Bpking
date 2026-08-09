@@ -12,7 +12,7 @@ jobs:
 
     - name: Unzip Project Files
       run: |
-        unzip bp.zip
+        unzip bp
         # If your zip created an extra subfolder, move everything to the root
         if [ -d "Forge-1.8.9-Src" ]; then mv Forge-1.8.9-Src/* .; fi 
 
