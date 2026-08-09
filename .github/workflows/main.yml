@@ -12,7 +12,7 @@ jobs:
 
     - name: Unzip Project Files
       run: |
-        unzip bp.zip
+        unzip Bp.zip
         # Moves files to root if your zip created an inner folder
         if [ -d "bp" ]; then mv bp/* .; fi 
 
