@@ -13,8 +13,13 @@ jobs:
     - name: Unzip Project Files
       run: |
         unzip Bp.zip
-        # Moves files to root if your zip created an inner folder
-        if [ -d "bp" ]; then mv bp/* .; fi 
+        # Auto-detect if files are inside a subfolder and move them out
+        SUBFOLDER=$(find . -maxdepth 2 -name "build.gradle" -exec dirname {} \;)
+        if [ "$SUBFOLDER" != "." ] && [ -n "$SUBFOLDER" ]; then
+          echo "Found project files in subfolder: $SUBFOLDER"
+          mv $SUBFOLDER/* . 2>/dev/null || true
+          mv $SUBFOLDER/.* . 2>/dev/null || true
+        fi
 
     - name: Set up Java 8
       uses: actions/setup-java@v4
@@ -33,5 +38,4 @@ jobs:
       with:
         name: compiled-mod
         path: build/libs/*.jar
-        
         
